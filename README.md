@@ -4,14 +4,14 @@ This Helm chart deploys a simple Hello World Pod with an init container for buil
 
 ## What this chart does
 
-1) Builds image using InitContainer
+1) InitContainer `builder` will:
 
 - add git package on the Podman container
 - run `podman build`` to build image
 - run `podman save` to save image tar file to shared folder. Folder shared between node and pod
 - run `nsenter` command to import saved image (`ctr image import`) from shared folder to local Nodes image store
 
-2) hello-world container will pull local saved image and use it to run `hello-world` nginx website page on the port 80
+2) container `hello-world`  will pull local saved image and use it to run `hello-world` nginx website page on the port 80
 
 3) service `hello-world` will expose contaner running on the pod `hello-world` and port 80
 
