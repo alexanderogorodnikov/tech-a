@@ -1,0 +1,5 @@
+replicaCount: 1
+
+image:
+  repository: localhost/hello-world
+  tag: latest

@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec:
+  initContainers:
+  - name: builder
+    image: quay.io/podman/stable
+    volumeMounts:
+    - name: shared-volume
+      mountPath: /share
+      mountPropagation: Bidirectional
+    - name: host
+      mountPath: /host
+    command: ["/bin/sh"]
+    args: ["-c", "yum install git -y && git clone https://github.com/alexanderogorodnikov/tech-a && podman build -t localhost/hello-world:latest -f ./tech-a/docker/Dockerfile && podman save --format docker-archive -o /share/hello-world.tar localhost/hello-world:latest && nsenter --mount=/host/proc/1/ns/mnt ctr -n=k8s.io image import /tmp/hello-world.tar"]
+    securityContext:
+      allowPrivilegeEscalation: true
+      capabilities:
+        add:
+          - ALL
+      privileged: true
+  containers:
+  - name: hello-world
+    image: localhost/hello-world:latest
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 80
+  volumes:
+  - name: shared-volume
+    hostPath:
+      path: /tmp
+      type: Directory
+  - name: host
+    hostPath:
+      path: /
+      type: ''
