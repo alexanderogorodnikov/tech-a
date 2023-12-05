@@ -1,5 +1,5 @@
 # Use the official NGINX base image
-FROM nginx
+FROM docker.io/library/nginx:latest
 
 # Copy the "hello-world" HTML file to the default NGINX web root directory
 COPY hello-world.html /usr/share/nginx/html/index.html
