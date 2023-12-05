@@ -22,6 +22,8 @@ spec:
       privileged: true
   containers:
   - name: hello-world
+    labels:
+      app: nginx
     image: {{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}
     imagePullPolicy: IfNotPresent
     ports:
