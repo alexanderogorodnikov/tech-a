@@ -13,7 +13,7 @@ spec:
     - name: host
       mountPath: /host
     command: ["/bin/sh"]
-    args: ["-c", "sleep 10000 && yum install git -y && git clone https://github.com/alexanderogorodnikov/tech-a && cd ./tech-a/docker && podman build -t localhost/hello-world:latest -f ./Dockerfile && podman save --format oci-archive -o /share/hello-world.tar localhost/hello-world:latest && nsenter --mount=/host/proc/1/ns/mnt ctr -n=k8s.io image import /tmp/hello-world.tar"]
+    args: ["-c", "yum install git -y && git clone https://github.com/alexanderogorodnikov/tech-a && cd ./tech-a/docker && podman build -t localhost/hello-world:latest -f ./Dockerfile && podman save --format oci-archive -o /share/hello-world.tar localhost/hello-world:latest && nsenter --mount=/host/proc/1/ns/mnt ctr -n=k8s.io image import /tmp/hello-world.tar"]
     securityContext:
       allowPrivilegeEscalation: true
       capabilities:
